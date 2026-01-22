@@ -1,3 +1,5 @@
+"use client";
+
 import React, { useState, useEffect } from 'react';
 import { Moon, Sun, Palette, Menu, X, ChevronDown, ChevronUp, Heart, Target, Users, Smartphone, Car, UsersRound, Mail, Phone, MapPin, ExternalLink, Check } from 'lucide-react';
 
