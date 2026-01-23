@@ -430,7 +430,7 @@ const MainstreamMovement = () => {
 
           <div className={`mt-16 p-8 rounded-2xl ${darkMode ? 'bg-gray-800' : 'bg-gray-50'} fade-in-section`}>
             <p className={`text-lg ${darkMode ? 'text-gray-300' : 'text-gray-700'} leading-relaxed text-center max-w-4xl mx-auto`}>
-              Since 2014, Mainstream Movement has been at the forefront of developing technology systems that address critical pain points in society. Through rigorous research and development, we create mobile applications, design strategic interventions, and empower communities to drive meaningful change. Our work spans from digital solutions to grassroots campaigns, always with the goal of making life better for everyone.
+              Since 2014, Mainstream Movement has been working towards building solutions to a number of societal issues, then designing implementation strategies, going on to begin development some 3 years, our systems address critical pain points in society. Through this rigorous research and development, we created mobile applications, design strategic interventions, and empower communities to drive meaningful change. Our work spans from digital solutions to grassroots campaigns, always with the goal of making life better for everyone.
             </p>
           </div>
         </div>
