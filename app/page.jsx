@@ -718,7 +718,7 @@ const MainstreamMovement = () => {
                   <div>
                     <p className={`${darkMode ? 'text-white' : 'text-gray-900'} font-semibold`}>Address</p>
                     <p className={`${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
-                      73 Padstow Avenue<br />
+                      79 Padstow Avenue<br />
                       Milton Keynes<br />
                       United Kingdom<br />
                       MK6 2ER
