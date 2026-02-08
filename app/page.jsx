@@ -119,6 +119,24 @@ const MainstreamMovement = () => {
     return () => sections.forEach(section => observer.unobserve(section));
   }, []);
 
+  // Handle payment success/cancellation from URL params
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const payment = params.get('payment');
+    
+    if (payment === 'success') {
+      setSubmitStatus('success');
+      // Clear form on success
+      setFormData({ name: '', email: '', phone: '', message: '', amount: '' });
+      // Clean URL
+      window.history.replaceState({}, '', window.location.pathname);
+    } else if (payment === 'cancelled') {
+      setSubmitStatus(null);
+      // Clean URL
+      window.history.replaceState({}, '', window.location.pathname);
+    }
+  }, []);
+
   const handleContactSubmit = async (e) => {
     e.preventDefault();
     setIsSubmitting(true);
@@ -147,10 +165,57 @@ const MainstreamMovement = () => {
   const handleDonationSubmit = async (e) => {
     e.preventDefault();
     setIsSubmitting(true);
+    setSubmitStatus(null);
 
     if (donationType === 'donate') {
-      // Stripe integration would go here
-      alert('Stripe payment integration coming soon. Amount: £' + formData.amount);
+      // Stripe Checkout integration
+      try {
+        // Validate amount
+        const amount = parseFloat(formData.amount);
+        if (!amount || amount <= 0) {
+          setSubmitStatus('error');
+          alert('Please enter a valid donation amount');
+          setIsSubmitting(false);
+          return;
+        }
+
+        // Validate required fields
+        if (!formData.name || !formData.email) {
+          setSubmitStatus('error');
+          alert('Please enter your name and email');
+          setIsSubmitting(false);
+          return;
+        }
+
+        // Create checkout session
+        const response = await fetch('/api/create-checkout-session', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            amount: amount,
+            name: formData.name,
+            email: formData.email,
+            project: selectedProject,
+            message: formData.message
+          })
+        });
+
+        const data = await response.json();
+
+        if (response.ok && data.url) {
+          // Redirect to Stripe Checkout
+          window.location.href = data.url;
+        } else {
+          setSubmitStatus('error');
+          alert(data.error || 'Failed to create payment session');
+          setIsSubmitting(false);
+        }
+      } catch (error) {
+        console.error('Error creating checkout session:', error);
+        setSubmitStatus('error');
+        alert('An error occurred. Please try again.');
+        setIsSubmitting(false);
+      }
     } else {
       // Handle pledge submission
       try {
@@ -169,11 +234,12 @@ const MainstreamMovement = () => {
         } else {
           setSubmitStatus('error');
         }
+        setIsSubmitting(false);
       } catch (error) {
         setSubmitStatus('error');
+        setIsSubmitting(false);
       }
     }
-    setIsSubmitting(false);
   };
 
   return (
