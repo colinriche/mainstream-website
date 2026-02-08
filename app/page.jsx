@@ -1093,8 +1093,8 @@ const MainstreamMovement = () => {
                 onClick={async () => {
                   setShowRecurringConfirm(false);
                   setIsSubmitting(true);
-                  // Trigger form submission
-                  const fakeEvent = { preventDefault: () => {} } as React.FormEvent<HTMLFormElement>;
+                  // Trigger form submission by calling handleDonationSubmit directly
+                  const fakeEvent = { preventDefault: () => {} };
                   await handleDonationSubmit(fakeEvent);
                 }}
                 className={`flex-1 py-3 px-4 rounded-lg font-semibold text-white ${currentTheme.accent} ${currentTheme.accentHover} shadow-lg transition-all`}
