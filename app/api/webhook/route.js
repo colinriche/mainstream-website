@@ -39,6 +39,10 @@ export async function POST(request) {
     if (event.type === 'checkout.session.completed') {
       const session = event.data.object;
       
+      // Determine if this is a recurring donation
+      const isRecurring = session.metadata?.is_recurring === 'true';
+      const billingFrequency = session.metadata?.billing_frequency || 'one-time';
+      
       // Save successful payment to Firestore
       try {
         const paymentData = {
@@ -50,14 +54,50 @@ export async function POST(request) {
           project: session.metadata?.project || 'all',
           message: session.metadata?.message || '',
           paymentStatus: session.payment_status,
+          isRecurring: isRecurring,
+          billingFrequency: billingFrequency,
+          subscriptionId: session.subscription || null,
           timestamp: serverTimestamp(),
         };
 
         await addDoc(collection(db, 'donations'), paymentData);
-        console.log('Payment saved to Firestore:', session.id);
+        console.log(`${isRecurring ? 'Recurring donation' : 'One-time donation'} saved to Firestore:`, session.id);
       } catch (firestoreError) {
         console.error('Error saving payment to Firestore:', firestoreError);
         // Don't fail the webhook if Firestore save fails
+      }
+    }
+
+    // Handle subscription payment events (for recurring donations)
+    if (event.type === 'invoice.payment_succeeded') {
+      const invoice = event.data.object;
+      const subscriptionId = invoice.subscription;
+      
+      // Get subscription details
+      try {
+        const subscription = await stripe.subscriptions.retrieve(subscriptionId);
+        const customer = await stripe.customers.retrieve(subscription.customer);
+        
+        // Save recurring payment to Firestore
+        const paymentData = {
+          subscriptionId: subscriptionId,
+          invoiceId: invoice.id,
+          amount: invoice.amount_paid / 100, // Convert from pence to pounds
+          currency: invoice.currency,
+          customerEmail: typeof customer === 'object' && customer.email ? customer.email : null,
+          customerName: subscription.metadata?.donor_name || 'Anonymous',
+          project: subscription.metadata?.project || 'all',
+          message: subscription.metadata?.message || '',
+          paymentStatus: 'paid',
+          isRecurring: true,
+          billingFrequency: subscription.items.data[0]?.price?.recurring?.interval === 'year' ? 'yearly' : 'monthly',
+          timestamp: serverTimestamp(),
+        };
+
+        await addDoc(collection(db, 'donations'), paymentData);
+        console.log('Recurring payment saved to Firestore:', invoice.id);
+      } catch (error) {
+        console.error('Error processing subscription payment:', error);
       }
     }
 

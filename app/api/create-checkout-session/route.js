@@ -7,7 +7,7 @@ import { NextResponse } from 'next/server';
 export async function POST(request) {
   try {
     const body = await request.json();
-    const { amount, name, email, project, message } = body;
+    const { amount, name, email, project, message, isRecurring, billingFrequency } = body;
 
     // Validate required fields
     if (!amount || amount <= 0) {
@@ -28,10 +28,58 @@ export async function POST(request) {
       ? 'Donation - All Projects' 
       : `Donation - Project ${project}`;
 
+    // Determine billing interval
+    const interval = billingFrequency === 'yearly' ? 'year' : 'month';
+    const intervalCount = 1;
+
     // Create Stripe Checkout Session
-    const session = await stripe.checkout.sessions.create({
+    const sessionConfig = {
       payment_method_types: ['card'],
-      line_items: [
+      customer_email: email || undefined,
+      metadata: {
+        donor_name: name || 'Anonymous',
+        donor_email: email || '',
+        project: project || 'all',
+        message: message || '',
+        is_recurring: isRecurring ? 'true' : 'false',
+        billing_frequency: billingFrequency || 'one-time',
+      },
+      success_url: `${origin}/?payment=success&session_id={CHECKOUT_SESSION_ID}`,
+      cancel_url: `${origin}/?payment=cancelled`,
+    };
+
+    if (isRecurring) {
+      // Recurring donation (subscription)
+      sessionConfig.mode = 'subscription';
+      sessionConfig.line_items = [
+        {
+          price_data: {
+            currency: 'gbp',
+            product_data: {
+              name: `${projectName} (Recurring)`,
+              description: message || `Recurring donation to Mainstream Movement - ${billingFrequency}`,
+            },
+            unit_amount: amountInPence,
+            recurring: {
+              interval: interval,
+              interval_count: intervalCount,
+            },
+          },
+          quantity: 1,
+        },
+      ];
+      sessionConfig.subscription_data = {
+        metadata: {
+          donor_name: name || 'Anonymous',
+          donor_email: email || '',
+          project: project || 'all',
+          message: message || '',
+        },
+      };
+    } else {
+      // One-time payment
+      sessionConfig.mode = 'payment';
+      sessionConfig.line_items = [
         {
           price_data: {
             currency: 'gbp',
@@ -43,18 +91,10 @@ export async function POST(request) {
           },
           quantity: 1,
         },
-      ],
-      mode: 'payment',
-      customer_email: email || undefined,
-      metadata: {
-        donor_name: name || 'Anonymous',
-        donor_email: email || '',
-        project: project || 'all',
-        message: message || '',
-      },
-      success_url: `${origin}/?payment=success&session_id={CHECKOUT_SESSION_ID}`,
-      cancel_url: `${origin}/?payment=cancelled`,
-    });
+      ];
+    }
+
+    const session = await stripe.checkout.sessions.create(sessionConfig);
 
     return NextResponse.json({ 
       sessionId: session.id,

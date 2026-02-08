@@ -49,8 +49,9 @@ Webhooks allow you to receive real-time notifications about payment events.
    - **Development**: `https://your-ngrok-url.ngrok.io/api/webhook`
    - **Production**: `https://gomainstream.org/api/webhook`
 4. Select events to listen for:
-   - `checkout.session.completed`
-   - `payment_intent.succeeded`
+   - `checkout.session.completed` (for one-time and initial recurring payments)
+   - `invoice.payment_succeeded` (for recurring subscription payments)
+   - `invoice.payment_failed` (optional - for failed recurring payments)
 5. Copy the **Signing secret** (starts with `whsec_`)
 6. Add it to your environment variables as `STRIPE_WEBHOOK_SECRET`
 
@@ -76,11 +77,35 @@ ngrok http 3000
 ### Payment Flow
 
 1. **User fills out donation form** → Clicks "Proceed to Payment"
-2. **API creates checkout session** → `/api/create-checkout-session`
-3. **User redirected to Stripe Checkout** → Secure payment page
-4. **User completes payment** → Stripe processes payment
-5. **User redirected back** → `/?payment=success`
-6. **Webhook receives event** → `/api/webhook` saves payment to Firestore
+2. **If recurring donation selected** → Confirmation modal appears with details
+3. **User confirms recurring donation** → Clicks "Confirm & Proceed"
+4. **API creates checkout session** → `/api/create-checkout-session` (one-time or subscription)
+5. **User redirected to Stripe Checkout** → Secure payment page
+6. **User completes payment** → Stripe processes payment
+7. **User redirected back** → `/?payment=success`
+8. **Webhook receives event** → `/api/webhook` saves payment to Firestore
+
+### Recurring Donations
+
+The donation form now supports recurring donations with the following features:
+
+- **Checkbox option** to make donations recurring
+- **Frequency selection** (Monthly or Yearly)
+- **Clear confirmation modal** that shows:
+  - Donation amount
+  - Billing frequency
+  - First payment date
+  - Next payment date
+  - Important information about cancellation
+- **Automatic billing** via Stripe Subscriptions
+- **Email confirmations** for each payment
+- **Easy cancellation** via Stripe customer portal or by contacting support
+
+When a recurring donation is selected:
+- The checkout session is created as a **subscription** (not a one-time payment)
+- Stripe automatically charges the customer at the selected interval
+- Each recurring payment triggers a webhook event (`invoice.payment_succeeded`)
+- All payments are saved to Firestore with `isRecurring: true`
 
 ### API Endpoints
 
@@ -94,7 +119,9 @@ Creates a Stripe Checkout session and returns the checkout URL.
   "name": "John Doe",
   "email": "john@example.com",
   "project": "all",
-  "message": "Thank you for your work!"
+  "message": "Thank you for your work!",
+  "isRecurring": false,  // Optional: true for recurring donations
+  "billingFrequency": "monthly"  // Optional: "monthly" or "yearly" (required if isRecurring is true)
 }
 ```
 

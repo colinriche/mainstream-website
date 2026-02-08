@@ -4,7 +4,7 @@ import React, { useState, useEffect } from 'react';
 import {
   Moon, Sun, Palette, Menu, X, ChevronDown, ChevronUp,
   Heart, Target, Users, Smartphone, Car,
-  Mail, Phone, MapPin, ExternalLink, Check
+  Mail, Phone, MapPin, ExternalLink, Check, AlertCircle, Calendar
 } from 'lucide-react';
 
 const MainstreamMovement = () => {
@@ -22,6 +22,9 @@ const MainstreamMovement = () => {
   const [expandedProject, setExpandedProject] = useState(null);
   const [donationType, setDonationType] = useState('donate');
   const [selectedProject, setSelectedProject] = useState('all');
+  const [isRecurring, setIsRecurring] = useState(false);
+  const [billingFrequency, setBillingFrequency] = useState('monthly'); // monthly, yearly
+  const [showRecurringConfirm, setShowRecurringConfirm] = useState(false);
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -187,6 +190,13 @@ const MainstreamMovement = () => {
           return;
         }
 
+        // If recurring donation, show confirmation modal first
+        if (isRecurring && !showRecurringConfirm) {
+          setIsSubmitting(false);
+          setShowRecurringConfirm(true);
+          return;
+        }
+
         // Create checkout session
         const response = await fetch('/api/create-checkout-session', {
           method: 'POST',
@@ -196,13 +206,17 @@ const MainstreamMovement = () => {
             name: formData.name,
             email: formData.email,
             project: selectedProject,
-            message: formData.message
+            message: formData.message,
+            isRecurring: isRecurring,
+            billingFrequency: billingFrequency
           })
         });
 
         const data = await response.json();
 
         if (response.ok && data.url) {
+          // Close confirmation modal if open
+          setShowRecurringConfirm(false);
           // Redirect to Stripe Checkout
           window.location.href = data.url;
         } else {
@@ -724,6 +738,86 @@ const MainstreamMovement = () => {
                   </div>
                 )}
 
+                {donationType === 'donate' && (
+                  <>
+                    {/* Recurring Donation Option */}
+                    <div className={`p-4 rounded-lg border-2 ${
+                      darkMode ? 'bg-gray-800 border-gray-700' : 'bg-blue-50 border-blue-200'
+                    }`}>
+                      <label className="flex items-start gap-3 cursor-pointer">
+                        <input
+                          type="checkbox"
+                          checked={isRecurring}
+                          onChange={(e) => {
+                            setIsRecurring(e.target.checked);
+                            if (!e.target.checked) {
+                              setShowRecurringConfirm(false);
+                            }
+                          }}
+                          className="mt-1 w-5 h-5 rounded border-2 border-gray-300 text-green-600 focus:ring-2 focus:ring-green-500"
+                        />
+                        <div className="flex-1">
+                          <div className="flex items-center gap-2 mb-1">
+                            <Calendar className={`w-5 h-5 ${isRecurring ? 'text-green-600' : 'text-gray-400'}`} />
+                            <span className={`font-semibold ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+                              Make this a recurring donation
+                            </span>
+                          </div>
+                          <p className={`text-sm ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
+                            Your donation will automatically repeat, providing consistent support for our projects.
+                          </p>
+                        </div>
+                      </label>
+
+                      {isRecurring && (
+                        <div className="mt-4 ml-8">
+                          <label className={`block mb-2 text-sm font-medium ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
+                            Billing Frequency
+                          </label>
+                          <div className="flex gap-3">
+                            <button
+                              type="button"
+                              onClick={() => setBillingFrequency('monthly')}
+                              className={`flex-1 py-2 px-4 rounded-lg font-medium transition-all ${
+                                billingFrequency === 'monthly'
+                                  ? `${currentTheme.accent} text-white shadow-md`
+                                  : `${darkMode ? 'bg-gray-700 text-gray-300 hover:bg-gray-600' : 'bg-white text-gray-700 hover:bg-gray-50'} border-2 ${darkMode ? 'border-gray-600' : 'border-gray-300'}`
+                              }`}
+                            >
+                              Monthly
+                            </button>
+                            <button
+                              type="button"
+                              onClick={() => setBillingFrequency('yearly')}
+                              className={`flex-1 py-2 px-4 rounded-lg font-medium transition-all ${
+                                billingFrequency === 'yearly'
+                                  ? `${currentTheme.accent} text-white shadow-md`
+                                  : `${darkMode ? 'bg-gray-700 text-gray-300 hover:bg-gray-600' : 'bg-white text-gray-700 hover:bg-gray-50'} border-2 ${darkMode ? 'border-gray-600' : 'border-gray-300'}`
+                              }`}
+                            >
+                              Yearly
+                            </button>
+                          </div>
+                          <div className={`mt-3 p-3 rounded-lg ${darkMode ? 'bg-gray-900' : 'bg-white'} border ${darkMode ? 'border-gray-700' : 'border-gray-200'}`}>
+                            <div className="flex items-start gap-2">
+                              <AlertCircle className={`w-5 h-5 mt-0.5 ${darkMode ? 'text-yellow-400' : 'text-yellow-600'}`} />
+                              <div className="flex-1">
+                                <p className={`text-sm font-medium ${darkMode ? 'text-yellow-400' : 'text-yellow-800'} mb-1`}>
+                                  Recurring Donation Details
+                                </p>
+                                <p className={`text-xs ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
+                                  You'll be charged <strong>£{formData.amount || '0'}</strong> {billingFrequency === 'monthly' ? 'every month' : 'once per year'} until you cancel. 
+                                  You can cancel anytime from your account or by contacting us.
+                                </p>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  </>
+                )}
+
                 <button
                   type="submit"
                   disabled={isSubmitting}
@@ -923,6 +1017,94 @@ const MainstreamMovement = () => {
           </div>
         </div>
       </footer>
+
+      {/* Recurring Donation Confirmation Modal */}
+      {showRecurringConfirm && (
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
+          <div className={`max-w-md w-full ${darkMode ? 'bg-gray-800' : 'bg-white'} rounded-2xl shadow-2xl p-6 animate-in slide-in-from-bottom duration-300`}>
+            <div className="flex items-center gap-3 mb-4">
+              <div className={`p-2 rounded-full ${currentTheme.accent} bg-opacity-20`}>
+                <AlertCircle className={`w-6 h-6 ${currentTheme.text}`} />
+              </div>
+              <h3 className={`text-2xl font-bold ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+                Confirm Recurring Donation
+              </h3>
+            </div>
+
+            <div className={`mb-6 p-4 rounded-lg ${darkMode ? 'bg-gray-900' : 'bg-blue-50'} border-2 ${darkMode ? 'border-gray-700' : 'border-blue-200'}`}>
+              <p className={`text-sm ${darkMode ? 'text-gray-300' : 'text-gray-700'} mb-4`}>
+                You're about to set up a <strong>recurring donation</strong>. Please review the details below:
+              </p>
+              
+              <div className={`space-y-3 ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
+                <div className="flex justify-between items-center">
+                  <span className="font-medium">Donation Amount:</span>
+                  <span className="font-bold">£{formData.amount}</span>
+                </div>
+                <div className="flex justify-between items-center">
+                  <span className="font-medium">Billing Frequency:</span>
+                  <span className="font-bold capitalize">{billingFrequency}</span>
+                </div>
+                <div className="flex justify-between items-center">
+                  <span className="font-medium">First Payment:</span>
+                  <span className="font-bold">Today</span>
+                </div>
+                <div className="flex justify-between items-center">
+                  <span className="font-medium">Next Payment:</span>
+                  <span className="font-bold">
+                    {billingFrequency === 'monthly' ? 'In 1 month' : 'In 1 year'}
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            <div className={`mb-6 p-4 rounded-lg ${darkMode ? 'bg-yellow-900/30' : 'bg-yellow-50'} border-2 ${darkMode ? 'border-yellow-700' : 'border-yellow-200'}`}>
+              <div className="flex items-start gap-2">
+                <AlertCircle className={`w-5 h-5 mt-0.5 ${darkMode ? 'text-yellow-400' : 'text-yellow-600'}`} />
+                <div>
+                  <p className={`text-sm font-semibold ${darkMode ? 'text-yellow-400' : 'text-yellow-800'} mb-1`}>
+                    Important Information
+                  </p>
+                  <ul className={`text-xs space-y-1 ${darkMode ? 'text-yellow-300' : 'text-yellow-700'} list-disc list-inside`}>
+                    <li>Your card will be charged automatically {billingFrequency === 'monthly' ? 'every month' : 'once per year'}</li>
+                    <li>You can cancel your recurring donation at any time</li>
+                    <li>You'll receive email confirmations for each payment</li>
+                    <li>To cancel, contact us at jules@gomainstream.org or manage it in your Stripe customer portal</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+            <div className="flex gap-3">
+              <button
+                onClick={() => {
+                  setShowRecurringConfirm(false);
+                  setIsSubmitting(false);
+                }}
+                className={`flex-1 py-3 px-4 rounded-lg font-semibold transition-all ${
+                  darkMode
+                    ? 'bg-gray-700 text-gray-300 hover:bg-gray-600'
+                    : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
+                }`}
+              >
+                Cancel
+              </button>
+              <button
+                onClick={async () => {
+                  setShowRecurringConfirm(false);
+                  setIsSubmitting(true);
+                  // Trigger form submission
+                  const fakeEvent = { preventDefault: () => {} } as React.FormEvent<HTMLFormElement>;
+                  await handleDonationSubmit(fakeEvent);
+                }}
+                className={`flex-1 py-3 px-4 rounded-lg font-semibold text-white ${currentTheme.accent} ${currentTheme.accentHover} shadow-lg transition-all`}
+              >
+                Confirm & Proceed
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
