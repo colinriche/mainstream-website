@@ -422,18 +422,6 @@ const MainstreamMovement = () => {
 
       {/* Hero Section */}
       <section className={`pt-24 pb-20 bg-gradient-to-br ${darkMode ? currentTheme.dark : currentTheme.light} transition-colors duration-500 relative overflow-hidden`}>
-        {/* Background Image */}
-        <div className="absolute inset-0 z-0">
-          <Image
-            src="/assets/Mm2.png"
-            alt="Mainstream Movement"
-            fill
-            className="object-cover opacity-20"
-            priority
-          />
-          <div className="absolute inset-0 bg-gradient-to-br from-black/40 to-transparent"></div>
-        </div>
-
         {/* Under Construction Banner */}
         <div className={`${darkMode ? 'bg-yellow-900/20 border-yellow-600/30' : 'bg-yellow-50 border-yellow-400/50'} border-2 mx-4 sm:mx-8 mt-4 rounded-xl p-4 backdrop-blur-sm animate-pulse-slow relative z-10`}>
           <div className="flex items-center justify-center gap-3 flex-wrap">
@@ -452,6 +440,19 @@ const MainstreamMovement = () => {
 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 mt-8">
           <div className="text-center space-y-8 fade-in-section">
+            {/* Hero Image */}
+            <div className="flex justify-center mb-8">
+              <div className="relative w-full max-w-2xl h-auto">
+                <Image
+                  src="/assets/Mm2.png"
+                  alt="Mainstream Movement"
+                  width={800}
+                  height={400}
+                  className="w-full h-auto rounded-lg shadow-2xl"
+                  priority
+                />
+              </div>
+            </div>
             <h1 className={`text-5xl md:text-7xl font-bold ${darkMode ? 'text-white' : 'text-gray-900'} leading-tight`}>
               Mainstream <span className="gradient-text">Movement</span>
             </h1>
