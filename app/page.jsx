@@ -13,9 +13,9 @@ const MainstreamMovement = () => {
   const [theme, setTheme] = useState('green');
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
-  // Cycle through themes: green -> red -> blue -> green
+  // Cycle through themes: green -> red -> blue -> black -> green
   const cycleTheme = () => {
-    const themeOrder = ['green', 'red', 'blue'];
+    const themeOrder = ['green', 'red', 'blue', 'black'];
     const currentIndex = themeOrder.indexOf(theme);
     const nextIndex = (currentIndex + 1) % themeOrder.length;
     setTheme(themeOrder[nextIndex]);
@@ -60,6 +60,14 @@ const MainstreamMovement = () => {
       accentHover: 'hover:bg-blue-700',
       text: 'text-blue-600',
       border: 'border-blue-600'
+    },
+    black: {
+      light: 'from-gray-100 to-gray-200',
+      dark: 'from-black to-gray-900',
+      accent: 'bg-black',
+      accentHover: 'hover:bg-gray-900',
+      text: 'text-black',
+      border: 'border-black'
     }
   };
 
