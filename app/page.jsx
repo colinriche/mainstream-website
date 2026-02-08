@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from 'react';
+import Image from 'next/image';
 import {
   Moon, Sun, Palette, Menu, X, ChevronDown, ChevronUp,
   Heart, Target, Users, Smartphone, Car,
@@ -8,7 +9,7 @@ import {
 } from 'lucide-react';
 
 const MainstreamMovement = () => {
-  const [darkMode, setDarkMode] = useState(false);
+  const [darkMode, setDarkMode] = useState(true);
   const [theme, setTheme] = useState('green');
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
@@ -330,10 +331,15 @@ const MainstreamMovement = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
             <div className="flex items-center space-x-3">
-              <div className={`${currentTheme.accent} px-4 py-2 rounded-lg transform hover:scale-110 hover:rotate-12 transition-all duration-300 cursor-pointer active:scale-95 shadow-lg`}>
-                <span className="text-white font-bold text-2xl tracking-tight" style={{ fontFamily: "'Arial Black', sans-serif", textShadow: '2px 2px 4px rgba(0,0,0,0.3)' }}>
-                  Mm<sup className="text-base">2</sup>
-                </span>
+              <div className="transform hover:scale-110 transition-all duration-300 cursor-pointer active:scale-95">
+                <Image 
+                  src="/assets/Mm2-logo.png" 
+                  alt="Mainstream Movement Logo" 
+                  width={120} 
+                  height={40}
+                  className="h-10 w-auto"
+                  priority
+                />
               </div>
               <span className={`text-xl font-bold ${darkMode ? 'text-white' : 'text-gray-900'}`}>
                 Mainstream Movement
@@ -416,8 +422,20 @@ const MainstreamMovement = () => {
 
       {/* Hero Section */}
       <section className={`pt-24 pb-20 bg-gradient-to-br ${darkMode ? currentTheme.dark : currentTheme.light} transition-colors duration-500 relative overflow-hidden`}>
+        {/* Background Image */}
+        <div className="absolute inset-0 z-0">
+          <Image
+            src="/assets/Mm2.png"
+            alt="Mainstream Movement"
+            fill
+            className="object-cover opacity-20"
+            priority
+          />
+          <div className="absolute inset-0 bg-gradient-to-br from-black/40 to-transparent"></div>
+        </div>
+
         {/* Under Construction Banner */}
-        <div className={`${darkMode ? 'bg-yellow-900/20 border-yellow-600/30' : 'bg-yellow-50 border-yellow-400/50'} border-2 mx-4 sm:mx-8 mt-4 rounded-xl p-4 backdrop-blur-sm animate-pulse-slow`}>
+        <div className={`${darkMode ? 'bg-yellow-900/20 border-yellow-600/30' : 'bg-yellow-50 border-yellow-400/50'} border-2 mx-4 sm:mx-8 mt-4 rounded-xl p-4 backdrop-blur-sm animate-pulse-slow relative z-10`}>
           <div className="flex items-center justify-center gap-3 flex-wrap">
             <div className="flex items-center gap-2">
               <span className="text-3xl">🚧</span>
@@ -434,13 +452,6 @@ const MainstreamMovement = () => {
 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 mt-8">
           <div className="text-center space-y-8 fade-in-section">
-            <div className="inline-block animate-float">
-              <div className={`${currentTheme.accent} px-8 py-6 rounded-2xl shadow-2xl`} style={{ background: `linear-gradient(135deg, ${darkMode ? '#1f2937' : '#fbbf24'}, ${darkMode ? '#374151' : '#f59e0b'})` }}>
-                <span className="text-white font-bold text-6xl md:text-7xl tracking-tight" style={{ fontFamily: "'Arial Black', sans-serif", textShadow: '3px 3px 6px rgba(0,0,0,0.4)' }}>
-                  Mm<sup className="text-4xl md:text-5xl">2</sup>
-                </span>
-              </div>
-            </div>
             <h1 className={`text-5xl md:text-7xl font-bold ${darkMode ? 'text-white' : 'text-gray-900'} leading-tight`}>
               Mainstream <span className="gradient-text">Movement</span>
             </h1>
