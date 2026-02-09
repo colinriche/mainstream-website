@@ -10,7 +10,7 @@ import {
 
 const MainstreamMovement = () => {
   const [darkMode, setDarkMode] = useState(true);
-  const [theme, setTheme] = useState('green');
+  const [theme, setTheme] = useState('black');
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   // Cycle through themes: green -> red -> blue -> black -> green
