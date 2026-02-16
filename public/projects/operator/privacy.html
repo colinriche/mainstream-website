@@ -1,152 +1,232 @@
-# Privacy Policy
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Privacy Policy — The Operator</title>
+  <style>
+    :root {
+      --bg: #fafafa;
+      --text: #1a1a1a;
+      --muted: #555;
+      --border: #e0e0e0;
+      --accent: #2563eb;
+      --max-width: 42rem;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #111;
+        --text: #e4e4e4;
+        --muted: #9ca3af;
+        --border: #333;
+        --accent: #60a5fa;
+      }
+    }
+    * { box-sizing: border-box; }
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      line-height: 1.6;
+      color: var(--text);
+      background: var(--bg);
+      margin: 0;
+      padding: 2rem 1.5rem 4rem;
+    }
+    .wrap {
+      max-width: var(--max-width);
+      margin: 0 auto;
+    }
+    h1 {
+      font-size: 1.75rem;
+      font-weight: 700;
+      margin: 0 0 0.5rem;
+      letter-spacing: -0.02em;
+    }
+    .meta {
+      color: var(--muted);
+      font-size: 0.9rem;
+      margin-bottom: 2.5rem;
+    }
+    h2 {
+      font-size: 1.15rem;
+      font-weight: 600;
+      margin: 2.25rem 0 0.75rem;
+      padding-bottom: 0.35rem;
+      border-bottom: 1px solid var(--border);
+    }
+    h2:first-of-type { margin-top: 0; }
+    h3 {
+      font-size: 1rem;
+      font-weight: 600;
+      margin: 1.5rem 0 0.5rem;
+      color: var(--muted);
+    }
+    p {
+      margin: 0 0 0.75rem;
+      color: var(--text);
+    }
+    ul {
+      margin: 0 0 1rem;
+      padding-left: 1.5rem;
+    }
+    li {
+      margin-bottom: 0.35rem;
+    }
+    strong { font-weight: 600; }
+    a {
+      color: var(--accent);
+      text-decoration: none;
+    }
+    a:hover { text-decoration: underline; }
+    hr {
+      border: none;
+      height: 1px;
+      background: var(--border);
+      margin: 2rem 0;
+    }
+    .contact-email {
+      font-weight: 600;
+      word-break: break-all;
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <h1>Privacy Policy</h1>
+    <p class="meta"><strong>Last updated:</strong> 11 February 2026</p>
 
-**Last updated:** 11 February 2026
+    <section>
+      <h2>1. Introduction</h2>
+      <p>This Privacy Policy explains how <strong>The Operator</strong> ("the App") collects, uses, and protects information when you use the application.</p>
+      <p>By using the App, you agree to this policy.</p>
+    </section>
 
-## 1. Introduction
+    <hr>
 
-This Privacy Policy explains how **The Operator** ("the App") collects,
-uses, and protects information when you use the application.
+    <section>
+      <h2>2. Information We Collect</h2>
 
-By using the App, you agree to this policy.
+      <h3>a) Camera Permission</h3>
+      <p>The App may request access to your device camera.</p>
+      <p>The camera is used solely for in-app functionality initiated by you. We do <strong>not</strong> record, store, or transmit camera footage unless explicitly required for the core functionality of the App and initiated by the user.</p>
+      <p>We do not access the camera in the background.</p>
 
-------------------------------------------------------------------------
+      <h3>b) Account Information</h3>
+      <p>If you sign in using phone authentication (e.g. Firebase Authentication), we may collect:</p>
+      <ul>
+        <li>Phone number</li>
+        <li>Authentication identifiers</li>
+        <li>Basic account metadata</li>
+      </ul>
+      <p>This data is used solely for authentication and operation of the service.</p>
 
-## 2. Information We Collect
+      <h3>c) Voice Communication Data</h3>
+      <p>The App enables real-time audio communication using WebRTC technology.</p>
+      <ul>
+        <li>Audio is transmitted peer-to-peer or via secure servers.</li>
+        <li>Calls are not recorded by default.</li>
+        <li>We do not store call audio unless explicitly stated within the App.</li>
+      </ul>
 
-### a) Camera Permission
+      <h3>d) Usage &amp; Technical Data</h3>
+      <p>We may collect limited technical information such as:</p>
+      <ul>
+        <li>Device type</li>
+        <li>Operating system version</li>
+        <li>App version</li>
+        <li>Crash logs</li>
+      </ul>
+      <p>This information is used to improve performance and reliability.</p>
+    </section>
 
-The App may request access to your device camera.
+    <hr>
 
-The camera is used solely for in-app functionality initiated by you.\
-We do **not** record, store, or transmit camera footage unless
-explicitly required for the core functionality of the App and initiated
-by the user.
+    <section>
+      <h2>3. How We Use Information</h2>
+      <p>We use collected data to:</p>
+      <ul>
+        <li>Provide core app functionality</li>
+        <li>Authenticate users</li>
+        <li>Enable voice communication</li>
+        <li>Improve stability and performance</li>
+        <li>Maintain platform security</li>
+      </ul>
+      <p>We do not sell personal data.</p>
+    </section>
 
-We do not access the camera in the background.
+    <hr>
 
-------------------------------------------------------------------------
+    <section>
+      <h2>4. Data Storage &amp; Third Parties</h2>
+      <p>We may use trusted third-party providers including:</p>
+      <ul>
+        <li>Firebase (Google LLC)</li>
+        <li>Cloud hosting providers</li>
+      </ul>
+      <p>These services process data in accordance with their own privacy policies.</p>
+    </section>
 
-### b) Account Information
+    <hr>
 
-If you sign in using phone authentication (e.g. Firebase
-Authentication), we may collect:
+    <section>
+      <h2>5. Data Sharing</h2>
+      <p>We do not sell or rent user data.</p>
+      <p>We may disclose information only:</p>
+      <ul>
+        <li>To service providers necessary to operate the App</li>
+        <li>If required by law</li>
+        <li>To protect the security or integrity of the service</li>
+      </ul>
+    </section>
 
--   Phone number\
--   Authentication identifiers\
--   Basic account metadata
+    <hr>
 
-This data is used solely for authentication and operation of the
-service.
+    <section>
+      <h2>6. Data Retention</h2>
+      <p>We retain data only as long as necessary to provide the service or comply with legal obligations.</p>
+    </section>
 
-------------------------------------------------------------------------
+    <hr>
 
-### c) Voice Communication Data
+    <section>
+      <h2>7. Your Rights</h2>
+      <p>Depending on your jurisdiction (including UK GDPR), you may have rights to:</p>
+      <ul>
+        <li>Request access to your data</li>
+        <li>Request correction or deletion</li>
+        <li>Withdraw consent</li>
+      </ul>
+      <p>To exercise these rights, contact:</p>
+      <p><a href="mailto:privacy@gomainstream.org" class="contact-email">privacy@gomainstream.org</a></p>
+    </section>
 
-The App enables real-time audio communication using WebRTC technology.
+    <hr>
 
--   Audio is transmitted peer-to-peer or via secure servers.\
--   Calls are not recorded by default.\
--   We do not store call audio unless explicitly stated within the App.
+    <section>
+      <h2>8. Children's Privacy</h2>
+      <p>The App is not intended for children under 13 (or the applicable legal age in your jurisdiction). We do not knowingly collect data from children.</p>
+    </section>
 
-------------------------------------------------------------------------
+    <hr>
 
-### d) Usage & Technical Data
+    <section>
+      <h2>9. Security</h2>
+      <p>We implement reasonable technical and organisational safeguards. However, no system can guarantee absolute security.</p>
+    </section>
 
-We may collect limited technical information such as:
+    <hr>
 
--   Device type\
--   Operating system version\
--   App version\
--   Crash logs
+    <section>
+      <h2>10. Changes to This Policy</h2>
+      <p>We may update this Privacy Policy periodically. Updates will be reflected by revising the "Last updated" date.</p>
+    </section>
 
-This information is used to improve performance and reliability.
+    <hr>
 
-------------------------------------------------------------------------
-
-## 3. How We Use Information
-
-We use collected data to:
-
--   Provide core app functionality\
--   Authenticate users\
--   Enable voice communication\
--   Improve stability and performance\
--   Maintain platform security
-
-We do not sell personal data.
-
-------------------------------------------------------------------------
-
-## 4. Data Storage & Third Parties
-
-We may use trusted third-party providers including:
-
--   Firebase (Google LLC)\
--   Cloud hosting providers
-
-These services process data in accordance with their own privacy
-policies.
-
-------------------------------------------------------------------------
-
-## 5. Data Sharing
-
-We do not sell or rent user data.
-
-We may disclose information only:
-
--   To service providers necessary to operate the App\
--   If required by law\
--   To protect the security or integrity of the service
-
-------------------------------------------------------------------------
-
-## 6. Data Retention
-
-We retain data only as long as necessary to provide the service or
-comply with legal obligations.
-
-------------------------------------------------------------------------
-
-## 7. Your Rights
-
-Depending on your jurisdiction (including UK GDPR), you may have rights
-to:
-
--   Request access to your data\
--   Request correction or deletion\
--   Withdraw consent
-
-To exercise these rights, contact:
-
-**privacy@gomainstream.org**
-
-------------------------------------------------------------------------
-
-## 8. Children's Privacy
-
-The App is not intended for children under 13 (or the applicable legal
-age in your jurisdiction). We do not knowingly collect data from
-children.
-
-------------------------------------------------------------------------
-
-## 9. Security
-
-We implement reasonable technical and organisational safeguards.
-However, no system can guarantee absolute security.
-
-------------------------------------------------------------------------
-
-## 10. Changes to This Policy
-
-We may update this Privacy Policy periodically. Updates will be
-reflected by revising the "Last updated" date.
-
-------------------------------------------------------------------------
-
-## 11. Contact
-
-For privacy-related enquiries:
-
-**privacy@gomainstream.org**
+    <section>
+      <h2>11. Contact</h2>
+      <p>For privacy-related enquiries:</p>
+      <p><a href="mailto:privacy@gomainstream.org" class="contact-email">privacy@gomainstream.org</a></p>
+    </section>
+  </div>
+</body>
+</html>
