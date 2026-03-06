@@ -74,9 +74,9 @@ const MainstreamMovement = () => {
   const projects = [
     {
       id: 1,
-      title: "Smart Connect App",
-      shortDesc: "A revolutionary mobile application connecting communities with essential services and resources.",
-      fullDesc: "Our Smart Connect App leverages cutting-edge technology to bridge the gap between people and services they need. Features include real-time service matching, community forums, resource mapping, and integrated booking systems. The app uses AI to understand user needs and provide personalized recommendations, making access to essential services seamless and efficient.",
+      title: "The Operator App",
+      shortDesc: "One-to-one phone conversations with people around the world, at a time you choose—in total privacy, with no obligation to take the call.",
+      fullDesc: "The Operator puts you through for a one-to-one phone conversation with someone from anywhere in the world, at a time that suits you. Everything is in total privacy, with no obligations or pressure: you're never committed to accepting a call if you don't feel like it. Choose from a list of topics to chat about, suggest your own, or simply say what's on your mind—then get matched with someone else who wants to talk about the same. You can also have a call with someone you know, directly or through an interest group or distant family, again randomly selected with no commitment, pressure or anxiety to accept.",
       icon: <Smartphone className="w-12 h-12" />,
       status: "In Development"
     },
