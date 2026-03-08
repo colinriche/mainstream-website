@@ -3,11 +3,17 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { ArrowLeft, Phone } from "lucide-react";
-import { themes, getStoredTheme, getStoredDarkMode } from "@/lib/siteThemes";
+import {
+  themes,
+  getStoredTheme,
+  getStoredDarkMode,
+  DEFAULT_GUEST_THEME,
+  DEFAULT_GUEST_DARK_MODE,
+} from "@/lib/siteThemes";
 
 export default function TheOperatorPage() {
-  const [theme, setTheme] = useState("black");
-  const [darkMode, setDarkMode] = useState(true);
+  const [theme, setTheme] = useState(DEFAULT_GUEST_THEME);
+  const [darkMode, setDarkMode] = useState(DEFAULT_GUEST_DARK_MODE);
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
@@ -26,8 +32,8 @@ export default function TheOperatorPage() {
 
   if (!mounted) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-gray-100 to-gray-200 flex items-center justify-center">
-        <div className="animate-spin rounded-full h-10 w-10 border-2 border-gray-400 border-t-transparent" />
+      <div className="min-h-screen dark bg-gradient-to-br from-black to-gray-900 flex items-center justify-center">
+        <div className="animate-spin rounded-full h-10 w-10 border-2 border-yellow-400/60 border-t-transparent" />
       </div>
     );
   }
