@@ -7,11 +7,22 @@ import {
   Heart, Target, Users, Smartphone, Car,
   Mail, Phone, MapPin, ExternalLink, Check, AlertCircle, Calendar
 } from 'lucide-react';
+import { getStoredTheme, getStoredDarkMode, setStoredTheme, setStoredDarkMode } from '@/lib/siteThemes';
 
 const MainstreamMovement = () => {
   const [darkMode, setDarkMode] = useState(true);
   const [theme, setTheme] = useState('black');
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
+  // Restore theme and dark mode from localStorage (persisted across pages)
+  useEffect(() => {
+    setTheme(getStoredTheme());
+    setDarkMode(getStoredDarkMode());
+  }, []);
+  useEffect(() => {
+    setStoredTheme(theme);
+    setStoredDarkMode(darkMode);
+  }, [theme, darkMode]);
 
   // Cycle through themes: green -> red -> blue -> black -> green
   const cycleTheme = () => {
