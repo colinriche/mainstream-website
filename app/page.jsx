@@ -99,6 +99,9 @@ const MainstreamMovement = () => {
   ];
 
   const currentTheme = themes[theme];
+  // When theme is black and dark mode, use yellow text so wording stays readable on dark background
+  const themeTextClass = (theme === 'black' && darkMode) ? 'text-yellow-400' : currentTheme.text;
+  const contactMutedClass = (theme === 'black' && darkMode) ? 'text-yellow-300' : (darkMode ? 'text-gray-400' : 'text-gray-600');
 
   // Smooth scroll function
   const scrollToSection = (sectionId) => {
@@ -584,7 +587,7 @@ const MainstreamMovement = () => {
                     onClick={() => setExpandedProject(expandedProject === project.id ? null : project.id)}
                     className={`w-full flex items-center justify-between p-3 rounded-lg ${darkMode ? 'bg-gray-800 hover:bg-gray-700' : 'bg-gray-50 hover:bg-gray-100'} transition-all duration-300 hover:shadow-md transform hover:-translate-y-0.5`}
                   >
-                    <span className={`font-semibold ${currentTheme.text}`}>
+                    <span className={`font-semibold ${themeTextClass}`}>
                       {expandedProject === project.id ? 'Show Less' : 'Learn More'}
                     </span>
                     {expandedProject === project.id ? <ChevronUp className="w-5 h-5" /> : <ChevronDown className="w-5 h-5" />}
@@ -881,23 +884,23 @@ const MainstreamMovement = () => {
                 <h3 className={`text-2xl font-bold mb-6 ${darkMode ? 'text-white' : 'text-gray-900'}`}>
                   Mainstream Movement Ltd
                 </h3>
-                <p className={`${darkMode ? 'text-gray-400' : 'text-gray-600'} mb-2`}>
+                <p className={`${contactMutedClass} mb-2`}>
                   Registered in England & Wales
                 </p>
-                <p className={`${darkMode ? 'text-gray-400' : 'text-gray-600'} mb-2`}>
+                <p className={`${contactMutedClass} mb-2`}>
                   Company Number: 09098347
                 </p>
-                <p className={`${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
+                <p className={contactMutedClass}>
                   Established 2014
                 </p>
               </div>
 
               <div className="space-y-4">
                 <div className="flex items-start gap-3">
-                  <MapPin className={`w-6 h-6 ${currentTheme.text} mt-1`} />
+                  <MapPin className={`w-6 h-6 ${themeTextClass} mt-1`} />
                   <div>
                     <p className={`${darkMode ? 'text-white' : 'text-gray-900'} font-semibold`}>Address</p>
-                    <p className={`${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
+                    <p className={contactMutedClass}>
                       79 Padstow Avenue<br />
                       Milton Keynes<br />
                       United Kingdom<br />
@@ -907,20 +910,20 @@ const MainstreamMovement = () => {
                 </div>
 
                 <div className="flex items-start gap-3">
-                  <Mail className={`w-6 h-6 ${currentTheme.text} mt-1`} />
+                  <Mail className={`w-6 h-6 ${themeTextClass} mt-1`} />
                   <div>
                     <p className={`${darkMode ? 'text-white' : 'text-gray-900'} font-semibold`}>Email</p>
-                    <a href="mailto:jules@gomainstream.org" className={`${currentTheme.text} hover:underline`}>
+                    <a href="mailto:jules@gomainstream.org" className={`${themeTextClass} hover:underline`}>
                       jules@gomainstream.org
                     </a>
                   </div>
                 </div>
 
                 <div className="flex items-start gap-3">
-                  <ExternalLink className={`w-6 h-6 ${currentTheme.text} mt-1`} />
+                  <ExternalLink className={`w-6 h-6 ${themeTextClass} mt-1`} />
                   <div>
                     <p className={`${darkMode ? 'text-white' : 'text-gray-900'} font-semibold`}>Website</p>
-                    <a href="https://gomainstream.org" className={`${currentTheme.text} hover:underline`}>
+                    <a href="https://gomainstream.org" className={`${themeTextClass} hover:underline`}>
                       gomainstream.org
                     </a>
                   </div>
@@ -1044,7 +1047,7 @@ const MainstreamMovement = () => {
           <div className={`max-w-md w-full ${darkMode ? 'bg-gray-800' : 'bg-white'} rounded-2xl shadow-2xl p-6 animate-in slide-in-from-bottom duration-300`}>
             <div className="flex items-center gap-3 mb-4">
               <div className={`p-2 rounded-full ${currentTheme.accent} bg-opacity-20`}>
-                <AlertCircle className={`w-6 h-6 ${currentTheme.text}`} />
+                <AlertCircle className={`w-6 h-6 ${themeTextClass}`} />
               </div>
               <h3 className={`text-2xl font-bold ${darkMode ? 'text-white' : 'text-gray-900'}`}>
                 Confirm Recurring Donation
