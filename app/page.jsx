@@ -598,6 +598,15 @@ const MainstreamMovement = () => {
                       <p className={`${darkMode ? 'text-gray-300' : 'text-gray-700'} leading-relaxed`}>
                         {project.fullDesc}
                       </p>
+                      {project.id === 1 && (
+                        <a
+                          href="/theoperator"
+                          className={`mt-4 inline-flex items-center gap-2 font-semibold ${themeTextClass} hover:underline`}
+                        >
+                          Visit The Operator page
+                          <ExternalLink className="w-4 h-4" />
+                        </a>
+                      )}
                     </div>
                   )}
                 </div>
