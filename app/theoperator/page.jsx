@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import { ArrowLeft, Phone } from "lucide-react";
+import { ArrowLeft, Phone, LogIn, User } from "lucide-react";
 import {
   themes,
   getStoredTheme,
@@ -10,16 +10,24 @@ import {
   DEFAULT_GUEST_THEME,
   DEFAULT_GUEST_DARK_MODE,
 } from "@/lib/siteThemes";
+import { auth } from "@/lib/operatorAuth";
+import { onAuthStateChanged } from "firebase/auth";
 
 export default function TheOperatorPage() {
   const [theme, setTheme] = useState(DEFAULT_GUEST_THEME);
   const [darkMode, setDarkMode] = useState(DEFAULT_GUEST_DARK_MODE);
   const [mounted, setMounted] = useState(false);
+  const [operatorUser, setOperatorUser] = useState(null);
 
   useEffect(() => {
     setTheme(getStoredTheme());
     setDarkMode(getStoredDarkMode());
     setMounted(true);
+  }, []);
+
+  useEffect(() => {
+    const unsub = onAuthStateChanged(auth, (user) => setOperatorUser(user));
+    return () => unsub();
   }, []);
 
   const currentTheme = themes[theme];
@@ -90,12 +98,29 @@ export default function TheOperatorPage() {
             The Operator App — strengthening communities one to one
           </p>
 
-          <div className="mt-10 text-center">
+          <div className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4">
+            {operatorUser ? (
+              <Link
+                href="/theoperator/account"
+                className={`inline-flex items-center gap-2 px-6 py-3 rounded-lg ${currentTheme.accent} ${currentTheme.accentHover} text-white transition-colors font-medium`}
+              >
+                <User className="w-5 h-5" />
+                Manage your account
+              </Link>
+            ) : (
+              <Link
+                href="/theoperator/login"
+                className={`inline-flex items-center gap-2 px-6 py-3 rounded-lg ${currentTheme.accent} ${currentTheme.accentHover} text-white transition-colors font-medium`}
+              >
+                <LogIn className="w-5 h-5" />
+                Log in to sync with the app
+              </Link>
+            )}
             <Link
               href="/"
-              className={`inline-flex items-center gap-2 px-6 py-3 rounded-lg ${currentTheme.accent} ${currentTheme.accentHover} text-white transition-colors font-medium`}
+              className={`inline-flex items-center gap-2 px-6 py-3 rounded-lg border-2 ${currentTheme.border} ${textPrimary} ${currentTheme.accentHover} transition-colors font-medium`}
             >
-              <ArrowLeft className="w-4 h-4" />
+              <ArrowLeft className="w-5 h-5" />
               Back to Mainstream Movement
             </Link>
           </div>
