@@ -90,7 +90,7 @@ const MainstreamMovement = () => {
     },
     {
       id: 3,
-      title: "The Walk-in Network",
+      title: "The Walk-In",
       shortDesc: "Building digital and physical spaces that foster social connection and collaborative activities.",
       fullDesc: "The Community Hub Network is designed to combat social isolation and build stronger communities. We're developing both a digital platform and supporting physical infrastructure to enable local sports clubs, interest groups, and social organizations to thrive. Features include event management, member coordination, venue booking, and community funding tools. The system facilitates grassroots organizing and helps groups achieve their goals together.",
       icon: <Users className="w-12 h-12" />,
