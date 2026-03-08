@@ -78,23 +78,23 @@ const MainstreamMovement = () => {
       shortDesc: "One-to-one phone conversations with people around the world, at a time you choose—in total privacy, with no obligation to take the call.",
       fullDesc: "The Operator puts you through for a one-to-one phone conversation with someone from anywhere in the world, at a time that suits you. Everything is in total privacy, with no obligations or pressure: you're never committed to accepting a call if you don't feel like it. Choose from a list of topics to chat about, suggest your own, or simply say what's on your mind—then get matched with someone else who wants to talk about the same. You can also have a call with someone you know, directly or through an interest group or distant family, again randomly selected with no commitment, pressure or anxiety to accept.",
       icon: <Smartphone className="w-12 h-12" />,
-      status: "In Development"
+      status: "Testing Phase"
     },
     {
       id: 2,
-      title: "Mobility Solutions",
-      shortDesc: "Innovative transportation technology reducing environmental impact and improving accessibility.",
-      fullDesc: "This project focuses on developing smart mobility solutions that address urban congestion, reduce carbon emissions, and improve transportation accessibility for all demographics. We're creating an integrated platform that combines ride-sharing, public transport optimization, and electric vehicle infrastructure planning. Our technology uses predictive analytics to optimize routes and reduce wait times.",
+      title: "Motoring Solutions",
+      shortDesc: "Making the enforcement of motoring infringements fairer for the motorist—from private parking tickets using Automatic Number Plate Recognition (ANPR), through to yellow boxes, tolls and congestion zones.",
+      fullDesc: "This project aims to make enforcement of motoring infringements fairer for the motorist. In the UK drivers often face unfairly issued private parking tickets and penalties from councils using ANPR systems, yellow-box junctions, tolls and congestion zones—and these systems frequently make mistakes. We're working on solutions that give motorists a fairer deal: clearer evidence, simpler appeals, and accountability when automated or private enforcement gets it wrong.",
       icon: <Car className="w-12 h-12" />,
-      status: "Phase 2"
+      status: "in Development"
     },
     {
       id: 3,
-      title: "Community Hub Network",
+      title: "The Walk-in Community Network",
       shortDesc: "Building digital and physical spaces that foster social connection and collaborative activities.",
       fullDesc: "The Community Hub Network is designed to combat social isolation and build stronger communities. We're developing both a digital platform and supporting physical infrastructure to enable local sports clubs, interest groups, and social organizations to thrive. Features include event management, member coordination, venue booking, and community funding tools. The system facilitates grassroots organizing and helps groups achieve their goals together.",
       icon: <Users className="w-12 h-12" />,
-      status: "Planning"
+      status: "In Development"
     }
   ];
 
@@ -452,7 +452,7 @@ const MainstreamMovement = () => {
             <div className="flex justify-center mb-8">
               <div className="relative w-full max-w-2xl h-auto">
                 <Image
-                  src="/assets/Mm2.png"
+                  src="/assets/mainstream_image.jpg"
                   alt="Mainstream Movement"
                   width={800}
                   height={400}
@@ -502,12 +502,12 @@ const MainstreamMovement = () => {
               {
                 icon: <Users className="w-12 h-12" />,
                 title: "Active Movement",
-                desc: "We're proactive changemakers - designing strategies, building apps, running campaigns, and organizing petitions."
+                desc: "We're proactive changemakers - designing strategies, building apps, <strike>running campaigns, and organizing petitions.</strike>"
               },
               {
                 icon: <Heart className="w-12 h-12" />,
                 title: "For-Profit For Good",
-                desc: "A sustainable business model focused on social impact, funded by donations and milestone-based pledges."
+                desc: "A sustainable business model focused on social impact, funded by donations, milestone-based pledges and of course profit."
               }
             ].map((item, idx) => (
               <div
@@ -530,7 +530,7 @@ const MainstreamMovement = () => {
 
           <div className={`mt-16 p-8 rounded-2xl ${darkMode ? 'bg-gray-800' : 'bg-gray-50'} fade-in-section`}>
             <p className={`text-lg ${darkMode ? 'text-gray-300' : 'text-gray-700'} leading-relaxed text-center max-w-4xl mx-auto`}>
-              Since 2014, Mainstream Movement has been working towards building solutions to a number of societal issues, then designing implementation strategies, going on to begin development some 3 years, our systems address critical pain points in society. Through this rigorous research and development, we created mobile applications, design strategic interventions, and empower communities to drive meaningful change. Our work spans from digital solutions to grassroots campaigns, always with the goal of making life better for everyone.
+              Since 2014, Mainstream Movement has been working towards building solutions to a number of societal issues, then designing implementation strategies, going on to begin development some 3 years, our systems address critical pain points in society. Through this rigorous research and development, we created mobile applications, design strategic interventions, and empower communities to drive meaningful change. Our work spans from digital solutions to grassroots campaigns, always with the goal of making life better for everyone. Our ultimate goal is to design and develop Democracy 2.0 and 3.0  systems that will allow for a more efficient and effective democracy, a very complex project that will take a lot of support and funding to achieve as well as a reputation for being a trustworthy organisation. To attain that level of reputation we need to be known for being the go to organisation for fixing national issues, take a look at our projects to see how we are doing this.
             </p>
           </div>
         </div>
