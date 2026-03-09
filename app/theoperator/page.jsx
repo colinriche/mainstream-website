@@ -10,7 +10,7 @@ import {
   DEFAULT_GUEST_THEME,
   DEFAULT_GUEST_DARK_MODE,
 } from "@/lib/siteThemes";
-import { auth } from "@/lib/operatorAuth";
+import { getOperatorAuth } from "@/lib/operatorAuth";
 import { onAuthStateChanged } from "firebase/auth";
 
 export default function TheOperatorPage() {
@@ -26,6 +26,8 @@ export default function TheOperatorPage() {
   }, []);
 
   useEffect(() => {
+    const auth = getOperatorAuth();
+    if (!auth) return;
     const unsub = onAuthStateChanged(auth, (user) => setOperatorUser(user));
     return () => unsub();
   }, []);

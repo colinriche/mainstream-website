@@ -11,7 +11,7 @@ import {
   DEFAULT_GUEST_THEME,
   DEFAULT_GUEST_DARK_MODE,
 } from "@/lib/siteThemes";
-import { auth } from "@/lib/operatorAuth";
+import { getOperatorAuth } from "@/lib/operatorAuth";
 import { onAuthStateChanged } from "firebase/auth";
 import {
   subscribeUserDoc,
@@ -54,6 +54,8 @@ export default function OperatorAccountPage() {
   }, []);
 
   useEffect(() => {
+    const auth = getOperatorAuth();
+    if (!auth) return;
     const unsub = onAuthStateChanged(auth, (u) => {
       setUser(u);
       if (!u) router.replace("/theoperator/login");

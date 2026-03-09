@@ -12,7 +12,7 @@ import {
   DEFAULT_GUEST_DARK_MODE,
 } from "@/lib/siteThemes";
 import {
-  auth,
+  getOperatorAuth,
   getRecaptchaVerifier,
   sendPhoneOtp,
   verifyPhoneOtp,
@@ -42,6 +42,8 @@ export default function OperatorLoginPage() {
   }, []);
 
   useEffect(() => {
+    const auth = getOperatorAuth();
+    if (!auth) return;
     const unsub = onAuthStateChanged(auth, (user) => {
       if (user) router.replace("/theoperator/account");
     });
@@ -107,7 +109,8 @@ export default function OperatorLoginPage() {
       const result = confirmationResultRef.current;
       if (!result) throw new Error("Session expired. Start again.");
       await verifyPhoneOtp(result.verificationId, code);
-      const user = auth.currentUser;
+      const auth = getOperatorAuth();
+      const user = auth?.currentUser;
       if (user) await ensureUserDoc(user.uid);
       router.replace("/theoperator/account");
     } catch (err) {
