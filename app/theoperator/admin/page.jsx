@@ -12,6 +12,7 @@ import {
   DEFAULT_GUEST_DARK_MODE,
 } from "@/lib/siteThemes";
 import { getOperatorAuth } from "@/lib/operatorAuth";
+import { isOperatorConfigMissing } from "@/lib/firebaseOperator";
 import { signInWithCustomToken, onAuthStateChanged } from "firebase/auth";
 
 export default function OperatorAdminLoginPage() {
@@ -22,11 +23,13 @@ export default function OperatorAdminLoginPage() {
   const [username, setUsername] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const [configMissing, setConfigMissing] = useState(false);
 
   useEffect(() => {
     setTheme(getStoredTheme());
     setDarkMode(getStoredDarkMode());
     setMounted(true);
+    setConfigMissing(isOperatorConfigMissing());
   }, []);
 
   useEffect(() => {
@@ -65,7 +68,14 @@ export default function OperatorAdminLoginPage() {
         return;
       }
       const auth = getOperatorAuth();
-      if (!auth) throw new Error("Operator auth not available");
+      if (!auth) {
+        if (isOperatorConfigMissing()) {
+          throw new Error(
+            "Operator Firebase is not configured. Set NEXT_PUBLIC_OPERATOR_FIREBASE_API_KEY, NEXT_PUBLIC_OPERATOR_FIREBASE_PROJECT_ID (and other NEXT_PUBLIC_OPERATOR_FIREBASE_* vars) in your environment and rebuild."
+          );
+        }
+        throw new Error("Operator auth not available. Refresh the page and try again.");
+      }
       await signInWithCustomToken(auth, data.token);
       router.replace("/theoperator/account");
     } catch (err) {
@@ -111,6 +121,12 @@ export default function OperatorAdminLoginPage() {
             <p className={`text-sm ${textMuted} mb-6`}>
               Sign in with your admin username. Your account must have admin role in the Operator app.
             </p>
+
+            {configMissing && (
+              <div className={`mb-4 p-3 rounded-lg text-sm ${darkMode ? "bg-amber-900/30 text-amber-200" : "bg-amber-50 text-amber-900"}`}>
+                Operator Firebase is not configured. Add <code className="text-xs">NEXT_PUBLIC_OPERATOR_FIREBASE_API_KEY</code>, <code className="text-xs">NEXT_PUBLIC_OPERATOR_FIREBASE_PROJECT_ID</code> (and other <code className="text-xs">NEXT_PUBLIC_OPERATOR_FIREBASE_*</code> vars) to your environment and rebuild the site.
+              </div>
+            )}
 
             <form onSubmit={handleSubmit} className="space-y-4">
               <label className={`block text-sm font-medium ${textPrimary}`}>
