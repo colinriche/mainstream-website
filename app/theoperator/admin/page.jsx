@@ -11,9 +11,8 @@ import {
   DEFAULT_GUEST_THEME,
   DEFAULT_GUEST_DARK_MODE,
 } from "@/lib/siteThemes";
-import { auth } from "@/lib/operatorAuth";
-import { signInWithCustomToken } from "firebase/auth";
-import { onAuthStateChanged } from "firebase/auth";
+import { operatorAuth } from "@/lib/operatorAuth";
+import { signInWithCustomToken, onAuthStateChanged } from "firebase/auth";
 
 export default function OperatorAdminLoginPage() {
   const router = useRouter();
@@ -31,7 +30,7 @@ export default function OperatorAdminLoginPage() {
   }, []);
 
   useEffect(() => {
-    const unsub = onAuthStateChanged(auth, (user) => {
+    const unsub = onAuthStateChanged(operatorAuth, (user) => {
       if (user) router.replace("/theoperator/account");
     });
     return () => unsub();
@@ -63,7 +62,7 @@ export default function OperatorAdminLoginPage() {
         setLoading(false);
         return;
       }
-      await signInWithCustomToken(auth, data.token);
+      await signInWithCustomToken(operatorAuth, data.token);
       router.replace("/theoperator/account");
     } catch (err) {
       setError(err.message || "Login failed.");
