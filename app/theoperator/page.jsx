@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import { ArrowLeft, Phone, LogIn, User, Shield } from "lucide-react";
+import { ArrowLeft, Phone, LogIn, User, Shield, Users } from "lucide-react";
 import {
   themes,
   getStoredTheme,
@@ -126,15 +126,26 @@ export default function TheOperatorPage() {
               Back to Mainstream Movement
             </Link>
           </div>
-          <p className="mt-6 text-center">
-            <Link
-              href="/theoperator/admin"
-              className={`inline-flex items-center gap-1.5 text-sm ${textMuted} hover:underline`}
-            >
-              <Shield className="w-4 h-4" />
-              Admin
-            </Link>
-          </p>
+          <div className="mt-6 text-center space-y-2 text-sm">
+            <p>
+              <Link
+                href="/theoperator/admin"
+                className={`inline-flex items-center gap-1.5 ${textMuted} hover:underline`}
+              >
+                <Shield className="w-4 h-4" />
+                Admin
+              </Link>
+            </p>
+            <p>
+              <Link
+                href="/theoperator/groups"
+                className={`inline-flex items-center gap-1.5 ${textMuted} hover:underline`}
+              >
+                <Users className="w-4 h-4" />
+                Group Admins
+              </Link>
+            </p>
+          </div>
         </div>
       </div>
     </div>
