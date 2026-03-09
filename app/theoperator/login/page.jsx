@@ -3,7 +3,7 @@
 import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { ArrowLeft, Phone, Loader2 } from "lucide-react";
+import { ArrowLeft, Phone, Loader2, Shield } from "lucide-react";
 import {
   themes,
   getStoredTheme,
@@ -214,6 +214,15 @@ export default function OperatorLoginPage() {
                 </button>
               </form>
             )}
+            <p className="mt-6 text-center">
+              <Link
+                href="/theoperator/admin"
+                className={`inline-flex items-center gap-1.5 text-sm ${textMuted} hover:underline`}
+              >
+                <Shield className="w-4 h-4" />
+                Admin
+              </Link>
+            </p>
           </div>
         </div>
       </div>
