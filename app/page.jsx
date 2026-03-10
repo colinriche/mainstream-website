@@ -142,8 +142,14 @@ const MainstreamMovement = () => {
 
     sections.forEach(section => observer.observe(section));
 
-    return () => sections.forEach(section => observer.unobserve(section));
+    return () => observer.disconnect();
   }, []);
+
+  // Ensure sections stay visible when theme/darkMode changes so content doesn't disappear
+  useEffect(() => {
+    const sections = document.querySelectorAll('.fade-in-section');
+    sections.forEach(section => section.classList.add('is-visible'));
+  }, [darkMode]);
 
   // Handle payment success/cancellation from URL params
   useEffect(() => {
