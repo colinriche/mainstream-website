@@ -61,37 +61,33 @@ export default function TheOperatorPage() {
             Back to Mainstream Movement
           </Link>
 
-          <header className="mb-10">
-            <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-6">
-              <div className="flex items-center gap-3">
-                <div className={`p-3 rounded-xl ${currentTheme.accent} text-white`}>
-                  <Phone className="w-8 h-8" />
-                </div>
-                <h1 className={`text-3xl sm:text-4xl font-bold ${textPrimary}`}>
-                  The Operator Calling App
-                </h1>
+          <header className="mb-8">
+            <div className="flex items-center gap-3">
+              <div className={`p-3 rounded-xl ${currentTheme.accent} text-white`}>
+                <Phone className="w-8 h-8" />
               </div>
-              <div className="w-full md:w-64 lg:w-72 mx-auto md:mx-0">
-                <div className="overflow-hidden rounded-2xl border border-white/10 shadow-xl bg-black/40">
-                  <Image
-                    src="/assets/operator_switchboard.jpg"
-                    alt="Representation of The Operator"
-                    width={512}
-                    height={341}
-                    className="h-40 w-full object-cover"
-                    priority
-                  />
-                  <div className="px-4 py-2 bg-black/60">
-                    <p className="text-[11px] uppercase tracking-wide text-gray-300 text-center">
-                      Representation of The Operator
-                    </p>
-                  </div>
-                </div>
-              </div>
+              <h1 className={`text-3xl sm:text-4xl font-bold ${textPrimary}`}>
+                The Operator Calling App
+              </h1>
             </div>
           </header>
 
-          <article className={`space-y-6 ${textBody} leading-relaxed mt-4`}>
+          <article className={`space-y-6 ${textBody} leading-relaxed mt-2`}>
+            <figure className="md:float-right md:w-80 lg:w-96 md:ml-6 md:mb-4 mb-6">
+              <div className="overflow-hidden rounded-2xl shadow-xl border border-white/10 bg-black/40">
+                <Image
+                  src="/assets/operator_switchboard.jpg"
+                  alt="Representation of The Operator"
+                  width={512}
+                  height={341}
+                  className="w-full h-auto object-cover"
+                  priority
+                />
+              </div>
+              <figcaption className="mt-2 text-[11px] uppercase tracking-wide text-gray-400 text-center">
+                Representation of The Operator
+              </figcaption>
+            </figure>
             <p>
               When the phone rings you are put on hold while the Operator selects who to connect you with.
             </p>
