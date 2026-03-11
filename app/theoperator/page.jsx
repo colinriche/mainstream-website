@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { ArrowLeft, Phone, LogIn, User, Shield, Users } from "lucide-react";
 import {
   themes,
@@ -60,18 +61,37 @@ export default function TheOperatorPage() {
             Back to Mainstream Movement
           </Link>
 
-          <header className="mb-12">
-            <div className="flex items-center gap-3 mb-4">
-              <div className={`p-3 rounded-xl ${currentTheme.accent} text-white`}>
-                <Phone className="w-8 h-8" />
+          <header className="mb-10">
+            <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-6">
+              <div className="flex items-center gap-3">
+                <div className={`p-3 rounded-xl ${currentTheme.accent} text-white`}>
+                  <Phone className="w-8 h-8" />
+                </div>
+                <h1 className={`text-3xl sm:text-4xl font-bold ${textPrimary}`}>
+                  The Operator Calling App
+                </h1>
               </div>
-              <h1 className={`text-3xl sm:text-4xl font-bold ${textPrimary}`}>
-                The Operator Calling App
-              </h1>
+              <div className="w-full md:w-64 lg:w-72 mx-auto md:mx-0">
+                <div className="overflow-hidden rounded-2xl border border-white/10 shadow-xl bg-black/40">
+                  <Image
+                    src="/assets/operator_switchboard.jpg"
+                    alt="Representation of The Operator"
+                    width={512}
+                    height={341}
+                    className="h-40 w-full object-cover"
+                    priority
+                  />
+                  <div className="px-4 py-2 bg-black/60">
+                    <p className="text-[11px] uppercase tracking-wide text-gray-300 text-center">
+                      Representation of The Operator
+                    </p>
+                  </div>
+                </div>
+              </div>
             </div>
           </header>
 
-          <article className={`space-y-6 ${textBody} leading-relaxed`}>
+          <article className={`space-y-6 ${textBody} leading-relaxed mt-4`}>
             <p>
               When the phone rings you are put on hold while the Operator selects who to connect you with.
             </p>
