@@ -905,57 +905,7 @@ const MainstreamMovement = () => {
 
           <div className="grid md:grid-cols-2 gap-12">
             {/* Contact Info */}
-            <div className="fade-in-section space-y-8">
-              <div>
-                <h3 className={`text-2xl font-bold mb-6 ${darkMode ? 'text-white' : 'text-gray-900'}`}>
-                  Mainstream Movement Ltd
-                </h3>
-                <p className={`${contactMutedClass} mb-2`}>
-                  Registered in England & Wales
-                </p>
-                <p className={`${contactMutedClass} mb-2`}>
-                  Company Number: 09098347
-                </p>
-                <p className={contactMutedClass}>
-                  Established 2014
-                </p>
-              </div>
-
-              <div className="space-y-4">
-                <div className="flex items-start gap-3">
-                  <MapPin className={`w-6 h-6 ${themeTextClass} mt-1`} />
-                  <div>
-                    <p className={`${darkMode ? 'text-white' : 'text-gray-900'} font-semibold`}>Address</p>
-                    <p className={contactMutedClass}>
-                      79 Padstow Avenue<br />
-                      Milton Keynes<br />
-                      United Kingdom<br />
-                      MK6 2ER
-                    </p>
-                  </div>
-                </div>
-
-                <div className="flex items-start gap-3">
-                  <Mail className={`w-6 h-6 ${themeTextClass} mt-1`} />
-                  <div>
-                    <p className={`${darkMode ? 'text-white' : 'text-gray-900'} font-semibold`}>Email</p>
-                    <a href="mailto:jules@gomainstream.org" className={`${themeTextClass} hover:underline`}>
-                      jules@gomainstream.org
-                    </a>
-                  </div>
-                </div>
-
-                <div className="flex items-start gap-3">
-                  <ExternalLink className={`w-6 h-6 ${themeTextClass} mt-1`} />
-                  <div>
-                    <p className={`${darkMode ? 'text-white' : 'text-gray-900'} font-semibold`}>Website</p>
-                    <a href="https://gomainstream.org" className={`${themeTextClass} hover:underline`}>
-                      gomainstream.org
-                    </a>
-                  </div>
-                </div>
-              </div>
-            </div>
+            <div className="fade-in-section"></div>
 
             {/* Contact Form */}
             <div className={`fade-in-section ${darkMode ? 'bg-gray-900' : 'bg-white'} rounded-2xl shadow-xl p-8`}>
