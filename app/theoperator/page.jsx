@@ -107,30 +107,40 @@ export default function TheOperatorPage() {
   return (
     <div className={`min-h-screen transition-colors duration-500 ${darkMode ? "dark" : ""}`}>
       <div className={`min-h-screen bg-gradient-to-br ${bgGradient} transition-colors duration-500`}>
-        <div className="max-w-3xl mx-auto px-4 sm:px-6 py-12 sm:py-16">
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 py-12 sm:py-16">
           <Link
             href="/"
-            className={`inline-flex items-center gap-2 ${textMuted} ${linkHover} mb-10 transition-colors`}
+            className={`inline-flex items-center gap-2 ${textMuted} ${linkHover} mb-8 transition-colors`}
           >
             <ArrowLeft className="w-4 h-4" />
             Back to Mainstream Movement
           </Link>
 
-          <header className="mb-6">
-            <div className="flex items-center gap-3">
-              <div className={`p-3 rounded-xl ${currentTheme.accent} text-white`}>
-                <Phone className="w-8 h-8" />
-              </div>
-              <h1 className={`text-3xl sm:text-4xl font-bold ${textPrimary}`}>
-                The Operator Calling App
-              </h1>
-            </div>
-          </header>
+          {/* ── Top: title left / waitlist right ── */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-10 items-start">
 
-          {/* ── Waitlist (prominent, near top) ── */}
-          <div className={`mb-10 rounded-2xl border-2 ${
-            darkMode ? "border-yellow-400/50 bg-yellow-400/5" : "border-yellow-500/50 bg-yellow-50"
-          } p-6 sm:p-8`}>
+            {/* Left — title + tagline */}
+            <div>
+              <div className="flex items-center gap-3 mb-4">
+                <div className={`p-3 rounded-xl ${currentTheme.accent} text-white`}>
+                  <Phone className="w-8 h-8" />
+                </div>
+                <h1 className={`text-3xl sm:text-4xl font-bold ${textPrimary}`}>
+                  The Operator Calling App
+                </h1>
+              </div>
+              <p className={`text-base ${textBody} leading-relaxed`}>
+                A calling app that connects you with people you know — or don&apos;t — based on shared interests, groups, and availability. No phone numbers shared. No commitment to answer.
+              </p>
+              <p className={`mt-3 text-sm font-semibold ${darkMode ? "text-yellow-400" : "text-yellow-600"}`}>
+                Coming soon — strengthening communities one to one.
+              </p>
+            </div>
+
+            {/* Right — waitlist card */}
+            <div className={`rounded-2xl border-2 ${
+              darkMode ? "border-yellow-400/50 bg-yellow-400/5" : "border-yellow-500/50 bg-yellow-50"
+            } p-5 sm:p-6`}>
 
             {waitlistStatus === "success" ? (
               <div className="space-y-1">
@@ -193,7 +203,7 @@ export default function TheOperatorPage() {
                   {/* Optional fields — revealed once email has a value */}
                   {showOptional && (
                     <div className="space-y-3">
-                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                      <div className="space-y-3">
                         <div>
                           <label className={`block text-xs font-medium mb-1 ${textMuted}`}>Name (optional)</label>
                           <input
@@ -269,6 +279,8 @@ export default function TheOperatorPage() {
                 </form>
               </>
             )}
+          </div>
+          {/* end grid */}
           </div>
 
           {/* ── Article ── */}
