@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { ArrowLeft, Phone, LogIn, User, Shield, Users, Bell, CheckCircle, Loader2 } from "lucide-react";
+import { ArrowLeft, Phone, LogIn, User, Shield, Users, Bell, CheckCircle, Loader2, FlaskConical } from "lucide-react";
 import {
   themes,
   getStoredTheme,
@@ -24,9 +24,17 @@ export default function TheOperatorPage() {
   const [waitlistEmail, setWaitlistEmail] = useState("");
   const [waitlistName, setWaitlistName] = useState("");
   const [waitlistPhone, setWaitlistPhone] = useState("");
+  const [isTester, setIsTester] = useState(false);
+  const [showOptional, setShowOptional] = useState(false);
   const [waitlistSubmitting, setWaitlistSubmitting] = useState(false);
   const [waitlistStatus, setWaitlistStatus] = useState(null); // null | 'success' | 'already' | 'error'
   const [waitlistError, setWaitlistError] = useState("");
+
+  function handleEmailChange(e) {
+    const val = e.target.value;
+    setWaitlistEmail(val);
+    if (val.trim()) setShowOptional(true);
+  }
 
   async function handleWaitlistSubmit(e) {
     e.preventDefault();
@@ -41,6 +49,7 @@ export default function TheOperatorPage() {
           email: waitlistEmail.trim(),
           name: waitlistName.trim(),
           phone: waitlistPhone.trim(),
+          isTester,
         }),
       });
       const data = await res.json();
@@ -81,6 +90,12 @@ export default function TheOperatorPage() {
   const borderClass = darkMode ? "border-gray-700" : "border-gray-200";
   const linkHover = darkMode ? "hover:text-white" : "hover:text-gray-900";
 
+  const inputClass = `w-full px-4 py-2.5 rounded-lg border text-sm focus:outline-none focus:ring-2 focus:ring-yellow-400/60 transition ${
+    darkMode
+      ? "bg-gray-900 border-gray-600 text-white placeholder-gray-500"
+      : "bg-white border-gray-300 text-gray-900 placeholder-gray-400"
+  }`;
+
   if (!mounted) {
     return (
       <div className="min-h-screen dark bg-gradient-to-br from-black to-gray-900 flex items-center justify-center">
@@ -101,7 +116,7 @@ export default function TheOperatorPage() {
             Back to Mainstream Movement
           </Link>
 
-          <header className="mb-8">
+          <header className="mb-6">
             <div className="flex items-center gap-3">
               <div className={`p-3 rounded-xl ${currentTheme.accent} text-white`}>
                 <Phone className="w-8 h-8" />
@@ -112,7 +127,152 @@ export default function TheOperatorPage() {
             </div>
           </header>
 
-          <article className={`space-y-6 ${textBody} leading-relaxed mt-2`}>
+          {/* ── Waitlist (prominent, near top) ── */}
+          <div className={`mb-10 rounded-2xl border-2 ${
+            darkMode ? "border-yellow-400/50 bg-yellow-400/5" : "border-yellow-500/50 bg-yellow-50"
+          } p-6 sm:p-8`}>
+
+            {waitlistStatus === "success" ? (
+              <div className="space-y-1">
+                <div className="flex items-center gap-3">
+                  <CheckCircle className="w-7 h-7 text-green-500 flex-shrink-0" />
+                  <p className={`text-lg font-bold ${textPrimary}`}>You&apos;re on the list!</p>
+                </div>
+                <p className={`pl-10 text-sm ${textBody}`}>
+                  We&apos;ll notify you at <strong>{waitlistEmail}</strong> when The Operator goes live.
+                  {isTester && " We've also noted your interest in being an early tester — thank you!"}
+                </p>
+              </div>
+            ) : waitlistStatus === "already" ? (
+              <div className="flex items-center gap-3">
+                <CheckCircle className="w-7 h-7 text-blue-500 flex-shrink-0" />
+                <p className={`font-semibold ${textPrimary}`}>You&apos;re already on the waitlist — we&apos;ll be in touch!</p>
+              </div>
+            ) : (
+              <>
+                <div className="flex items-start gap-3 mb-1">
+                  <div className={`mt-0.5 p-2 rounded-lg flex-shrink-0 ${darkMode ? "bg-yellow-400/20" : "bg-yellow-100"}`}>
+                    <Bell className={`w-5 h-5 ${darkMode ? "text-yellow-400" : "text-yellow-600"}`} />
+                  </div>
+                  <div>
+                    <h2 className={`text-xl font-bold ${textPrimary}`}>
+                      Not live yet — be first to know
+                    </h2>
+                    <p className={`mt-1 text-sm ${textBody}`}>
+                      Join the waitlist and we&apos;ll alert you the moment The Operator launches.
+                    </p>
+                  </div>
+                </div>
+
+                <form onSubmit={handleWaitlistSubmit} className="mt-5 space-y-3">
+                  {/* Email — always visible */}
+                  <div className="flex gap-2">
+                    <input
+                      type="email"
+                      required
+                      value={waitlistEmail}
+                      onChange={handleEmailChange}
+                      placeholder="Your email address"
+                      className={`${inputClass} flex-1`}
+                    />
+                    {!showOptional && (
+                      <button
+                        type="submit"
+                        disabled={waitlistSubmitting || !waitlistEmail.trim()}
+                        className={`flex-shrink-0 inline-flex items-center gap-2 px-5 py-2.5 rounded-lg font-semibold text-sm transition-all ${
+                          waitlistSubmitting || !waitlistEmail.trim()
+                            ? "opacity-50 cursor-not-allowed bg-yellow-400/60 text-gray-900"
+                            : "bg-yellow-400 hover:bg-yellow-300 text-gray-900 shadow"
+                        }`}
+                      >
+                        {waitlistSubmitting ? <Loader2 className="w-4 h-4 animate-spin" /> : "Notify me"}
+                      </button>
+                    )}
+                  </div>
+
+                  {/* Optional fields — revealed once email has a value */}
+                  {showOptional && (
+                    <div className="space-y-3">
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                        <div>
+                          <label className={`block text-xs font-medium mb-1 ${textMuted}`}>Name (optional)</label>
+                          <input
+                            type="text"
+                            value={waitlistName}
+                            onChange={(e) => setWaitlistName(e.target.value)}
+                            placeholder="Your name"
+                            className={inputClass}
+                          />
+                        </div>
+                        <div>
+                          <label className={`block text-xs font-medium mb-1 ${textMuted}`}>Phone (optional — for launch alert)</label>
+                          <input
+                            type="tel"
+                            value={waitlistPhone}
+                            onChange={(e) => setWaitlistPhone(e.target.value)}
+                            placeholder="+44 7700 000000"
+                            className={inputClass}
+                          />
+                        </div>
+                      </div>
+
+                      {/* Tester opt-in */}
+                      <label className={`flex items-start gap-3 cursor-pointer rounded-xl border p-3 transition-colors ${
+                        isTester
+                          ? darkMode ? "border-yellow-400/60 bg-yellow-400/10" : "border-yellow-400 bg-yellow-50"
+                          : darkMode ? "border-gray-700 hover:border-yellow-400/40" : "border-gray-200 hover:border-yellow-300"
+                      }`}>
+                        <input
+                          type="checkbox"
+                          checked={isTester}
+                          onChange={(e) => setIsTester(e.target.checked)}
+                          className="mt-0.5 h-4 w-4 accent-yellow-400 flex-shrink-0"
+                        />
+                        <div>
+                          <span className={`flex items-center gap-1.5 font-semibold text-sm ${textPrimary}`}>
+                            <FlaskConical className="w-4 h-4 text-yellow-500" />
+                            I want to be an early tester
+                          </span>
+                          <span className={`text-xs ${textBody}`}>
+                            Help bring The Operator to market sooner. Early testers get hands-on access before the public launch and can shape the final product.
+                          </span>
+                        </div>
+                      </label>
+
+                      {waitlistStatus === "error" && (
+                        <p className="text-red-500 text-sm">{waitlistError}</p>
+                      )}
+
+                      <button
+                        type="submit"
+                        disabled={waitlistSubmitting || !waitlistEmail.trim()}
+                        className={`inline-flex items-center gap-2 px-6 py-2.5 rounded-lg font-semibold text-sm transition-all ${
+                          waitlistSubmitting || !waitlistEmail.trim()
+                            ? "opacity-50 cursor-not-allowed bg-yellow-400/60 text-gray-900"
+                            : "bg-yellow-400 hover:bg-yellow-300 text-gray-900 shadow-md"
+                        }`}
+                      >
+                        {waitlistSubmitting ? (
+                          <>
+                            <Loader2 className="w-4 h-4 animate-spin" />
+                            Joining…
+                          </>
+                        ) : (
+                          <>
+                            <Bell className="w-4 h-4" />
+                            {isTester ? "Join waitlist & apply to test" : "Notify me when it launches"}
+                          </>
+                        )}
+                      </button>
+                    </div>
+                  )}
+                </form>
+              </>
+            )}
+          </div>
+
+          {/* ── Article ── */}
+          <article className={`space-y-6 ${textBody} leading-relaxed`}>
             <figure className="md:float-right md:w-80 lg:w-96 md:ml-6 md:mb-4 mb-6">
               <div className="overflow-hidden rounded-2xl shadow-xl border border-white/10 bg-black/40">
                 <Image
@@ -152,115 +312,7 @@ export default function TheOperatorPage() {
             </p>
           </article>
 
-          {/* Waitlist Section */}
-          <div className={`mt-12 rounded-2xl border-2 ${darkMode ? "border-yellow-400/40 bg-yellow-400/5" : "border-yellow-500/40 bg-yellow-50"} p-6 sm:p-8`}>
-            <div className="flex items-center gap-3 mb-2">
-              <div className={`p-2 rounded-lg ${darkMode ? "bg-yellow-400/20" : "bg-yellow-100"}`}>
-                <Bell className={`w-5 h-5 ${darkMode ? "text-yellow-400" : "text-yellow-600"}`} />
-              </div>
-              <h2 className={`text-xl font-bold ${textPrimary}`}>
-                The app is not yet live — join the waitlist
-              </h2>
-            </div>
-            <p className={`mb-6 ${textBody}`}>
-              Be among the first to know when The Operator launches. Enter your email and we&apos;ll send you an alert the moment the app is ready.
-            </p>
-
-            {waitlistStatus === "success" ? (
-              <div className={`flex items-center gap-3 rounded-xl p-4 ${darkMode ? "bg-green-900/30 border border-green-700/40" : "bg-green-50 border border-green-200"}`}>
-                <CheckCircle className="w-6 h-6 text-green-500 flex-shrink-0" />
-                <div>
-                  <p className={`font-semibold ${darkMode ? "text-green-300" : "text-green-800"}`}>You&apos;re on the list!</p>
-                  <p className={`text-sm ${darkMode ? "text-green-400" : "text-green-700"}`}>We&apos;ll notify you at <strong>{waitlistEmail}</strong> when The Operator goes live.</p>
-                </div>
-              </div>
-            ) : waitlistStatus === "already" ? (
-              <div className={`flex items-center gap-3 rounded-xl p-4 ${darkMode ? "bg-blue-900/30 border border-blue-700/40" : "bg-blue-50 border border-blue-200"}`}>
-                <CheckCircle className="w-6 h-6 text-blue-500 flex-shrink-0" />
-                <p className={`font-semibold ${darkMode ? "text-blue-300" : "text-blue-800"}`}>You&apos;re already on the waitlist — we&apos;ll be in touch!</p>
-              </div>
-            ) : (
-              <form onSubmit={handleWaitlistSubmit} className="space-y-3">
-                <div>
-                  <label className={`block text-sm font-medium mb-1 ${textBody}`}>
-                    Email address <span className="text-red-500">*</span>
-                  </label>
-                  <input
-                    type="email"
-                    required
-                    value={waitlistEmail}
-                    onChange={(e) => setWaitlistEmail(e.target.value)}
-                    placeholder="you@example.com"
-                    className={`w-full px-4 py-2.5 rounded-lg border text-sm focus:outline-none focus:ring-2 focus:ring-yellow-400/60 transition
-                      ${darkMode
-                        ? "bg-gray-900 border-gray-600 text-white placeholder-gray-500"
-                        : "bg-white border-gray-300 text-gray-900 placeholder-gray-400"
-                      }`}
-                  />
-                </div>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                  <div>
-                    <label className={`block text-sm font-medium mb-1 ${textBody}`}>
-                      Name <span className={`font-normal ${textMuted}`}>(optional)</span>
-                    </label>
-                    <input
-                      type="text"
-                      value={waitlistName}
-                      onChange={(e) => setWaitlistName(e.target.value)}
-                      placeholder="Your name"
-                      className={`w-full px-4 py-2.5 rounded-lg border text-sm focus:outline-none focus:ring-2 focus:ring-yellow-400/60 transition
-                        ${darkMode
-                          ? "bg-gray-900 border-gray-600 text-white placeholder-gray-500"
-                          : "bg-white border-gray-300 text-gray-900 placeholder-gray-400"
-                        }`}
-                    />
-                  </div>
-                  <div>
-                    <label className={`block text-sm font-medium mb-1 ${textBody}`}>
-                      Phone <span className={`font-normal ${textMuted}`}>(optional — for launch alert)</span>
-                    </label>
-                    <input
-                      type="tel"
-                      value={waitlistPhone}
-                      onChange={(e) => setWaitlistPhone(e.target.value)}
-                      placeholder="+44 7700 000000"
-                      className={`w-full px-4 py-2.5 rounded-lg border text-sm focus:outline-none focus:ring-2 focus:ring-yellow-400/60 transition
-                        ${darkMode
-                          ? "bg-gray-900 border-gray-600 text-white placeholder-gray-500"
-                          : "bg-white border-gray-300 text-gray-900 placeholder-gray-400"
-                        }`}
-                    />
-                  </div>
-                </div>
-                {waitlistStatus === "error" && (
-                  <p className="text-red-500 text-sm">{waitlistError}</p>
-                )}
-                <button
-                  type="submit"
-                  disabled={waitlistSubmitting || !waitlistEmail.trim()}
-                  className={`inline-flex items-center gap-2 px-6 py-2.5 rounded-lg font-semibold text-sm transition-all
-                    ${waitlistSubmitting || !waitlistEmail.trim()
-                      ? "opacity-50 cursor-not-allowed bg-yellow-400/60 text-gray-900"
-                      : "bg-yellow-400 hover:bg-yellow-300 text-gray-900 shadow-md hover:shadow-yellow-400/30"
-                    }`}
-                >
-                  {waitlistSubmitting ? (
-                    <>
-                      <Loader2 className="w-4 h-4 animate-spin" />
-                      Joining…
-                    </>
-                  ) : (
-                    <>
-                      <Bell className="w-4 h-4" />
-                      Notify me when it launches
-                    </>
-                  )}
-                </button>
-              </form>
-            )}
-          </div>
-
-          <p className={`mt-10 pt-8 border-t ${borderClass} text-center text-lg font-semibold ${textPrimary}`}>
+          <p className={`mt-12 pt-8 border-t ${borderClass} text-center text-lg font-semibold ${textPrimary}`}>
             The Operator App — strengthening communities one to one
           </p>
 

@@ -14,6 +14,7 @@ export async function POST(request) {
     const email = typeof body?.email === "string" ? body.email.trim().toLowerCase() : "";
     const name = typeof body?.name === "string" ? body.name.trim() : "";
     const phone = typeof body?.phone === "string" ? body.phone.trim() : "";
+    const isTester = body?.isTester === true;
 
     if (!email || !EMAIL_RE.test(email)) {
       return NextResponse.json({ error: "A valid email address is required." }, { status: 400 });
@@ -39,6 +40,7 @@ export async function POST(request) {
       email,
       name: name || null,
       phone: phone || null,
+      isTester,
       createdAt: new Date().toISOString(),
     };
 
